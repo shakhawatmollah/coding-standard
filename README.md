@@ -2198,6 +2198,7 @@ git commit -m "wip"
 
 ## Additional Resources
 
+- **PHP/Laravel/Blade Standard (Internal):** `php-laravel-blade-coding-standards.md`
 - **Node.js:** https://nodejs.org/en/docs/
 - **Angular:** https://angular.io/docs
 - **PostgreSQL:** https://www.postgresql.org/docs/
