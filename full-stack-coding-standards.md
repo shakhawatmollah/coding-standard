@@ -2,7 +2,8 @@
 
 **Tech Stack:** Node.js | Angular | PostgreSQL | Docker | CI/CD | Nginx
 
-**Version:** 1.1  **Last Updated:** February 12, 2026
+**Version:** 1.1  
+**Last Updated:** February 12, 2026
 
 ---
 
@@ -33,9 +34,14 @@
 - **Test coverage** - Aim for 80%+ coverage on critical paths
 - **Documentation** - Code should be self-documenting; comments explain "why", not "what"
 
+### Rule Strength (Normative Language)
+- **MUST / MUST NOT**: Mandatory requirement. Non-compliance blocks merge/release.
+- **SHOULD / SHOULD NOT**: Strong recommendation. Deviations require documented rationale.
+- **MAY**: Optional practice, used when context-dependent.
+
 ### Naming Conventions
 
-**DO:**
+**MUST:**
 ```javascript
 // Use descriptive, meaningful names
 const userAuthenticationToken = generateToken();
@@ -43,7 +49,7 @@ const isEmailVerified = checkEmailStatus();
 const MAX_RETRY_ATTEMPTS = 3;
 ```
 
-**DON'T:**
+**MUST NOT:**
 ```javascript
 // Avoid cryptic abbreviations
 const uatk = genTok();
@@ -57,23 +63,23 @@ const MAX = 3;
 
 ### Project Structure
 
-**DO:** Follow a clean architecture pattern
+**MUST:** Follow a clean architecture pattern
 ```
 src/
-+-- config/           # Configuration files
-+-- controllers/      # Route controllers
-+-- services/         # Business logic
-+-- models/          # Data models
-+-- middleware/      # Custom middleware
-+-- utils/           # Helper functions
-+-- validators/      # Input validation schemas
-+-- routes/          # Route definitions
-+-- tests/           # Test files
+|-- config/           # Configuration files
+|-- controllers/      # Route controllers
+|-- services/         # Business logic
+|-- models/          # Data models
+|-- middleware/      # Custom middleware
+|-- utils/           # Helper functions
+|-- validators/      # Input validation schemas
+|-- routes/          # Route definitions
+\\-- tests/           # Test files
 ```
 
 ### Error Handling
 
-**DO:** Use async/await with proper error handling
+**MUST:** Use async/await with proper error handling
 ```javascript
 // Good: Centralized error handling
 class AppError extends Error {
@@ -125,7 +131,7 @@ app.use((err, req, res, next) => {
 });
 ```
 
-**DON'T:** Use callbacks or swallow errors
+**MUST NOT:** Use callbacks or swallow errors
 ```javascript
 // Bad: Callback hell
 getUserById(id, function(err, user) {
@@ -147,7 +153,7 @@ try {
 
 ### Environment Variables
 
-**DO:** Use environment variables for configuration
+**MUST:** Use environment variables for configuration
 ```javascript
 // config/database.js
 require('dotenv').config();
@@ -173,7 +179,7 @@ NODE_ENV=development
 JWT_SECRET=your-super-secret-jwt-key
 ```
 
-**DON'T:** Hardcode credentials
+**MUST NOT:** Hardcode credentials
 ```javascript
 // Bad: Hardcoded secrets
 const dbConfig = {
@@ -185,7 +191,7 @@ const dbConfig = {
 
 ### Input Validation
 
-**DO:** Validate and sanitize all inputs
+**MUST:** Validate and sanitize all inputs
 ```javascript
 // Using Joi for validation
 const Joi = require('joi');
@@ -226,7 +232,7 @@ const validateRequest = (schema) => {
 router.post('/users', validateRequest(userSchema), createUser);
 ```
 
-**DON'T:** Trust user input
+**MUST NOT:** Trust user input
 ```javascript
 // Bad: No validation
 app.post('/users', (req, res) => {
@@ -237,7 +243,7 @@ app.post('/users', (req, res) => {
 
 ### Database Queries (with PostgreSQL)
 
-**DO:** Use parameterized queries
+**MUST:** Use parameterized queries
 ```javascript
 // Good: Protected against SQL injection
 const getUserByEmail = async (email) => {
@@ -273,7 +279,7 @@ const transferFunds = async (fromAccount, toAccount, amount) => {
 };
 ```
 
-**DON'T:** Use string concatenation for queries
+**MUST NOT:** Use string concatenation for queries
 ```javascript
 // Bad: SQL injection vulnerability!
 const query = `SELECT * FROM users WHERE email = '${email}'`;
@@ -287,7 +293,7 @@ await pool.query('UPDATE accounts SET balance = balance + 100 WHERE id = 2');
 
 ### Authentication & Authorization
 
-**DO:** Implement proper JWT handling
+**MUST:** Implement proper JWT handling
 ```javascript
 // Good: Secure JWT implementation
 const jwt = require('jsonwebtoken');
@@ -363,7 +369,7 @@ router.delete('/users/:id',
 );
 ```
 
-**DON'T:** Store passwords in plain text or use weak hashing
+**MUST NOT:** Store passwords in plain text or use weak hashing
 ```javascript
 // Bad: Plain text password
 const user = {
@@ -377,7 +383,7 @@ const token = jwt.sign({ userId }, 'weak-secret'); // No expiration!
 
 ### Logging
 
-**DO:** Use structured logging
+**MUST:** Use structured logging
 ```javascript
 // Good: Structured logging with Winston
 const winston = require('winston');
@@ -412,7 +418,7 @@ logger.info('User logged in', { userId: user.id, ip: req.ip });
 logger.error('Database connection failed', { error: err.message });
 ```
 
-**DON'T:** Use console.log in production
+**MUST NOT:** Use console.log in production
 ```javascript
 // Bad: Unstructured logging
 console.log('User logged in'); // No context, no levels
@@ -421,7 +427,7 @@ console.log(sensitiveData); // Might log secrets!
 
 ### API Response Format
 
-**DO:** Use consistent response structure
+**MUST:** Use consistent response structure
 ```javascript
 // Good: Standardized response
 const successResponse = (res, data, message = 'Success', statusCode = 200) => {
@@ -449,7 +455,7 @@ errorResponse(res, 'Validation failed', 400, validationErrors);
 
 ### API Contract Governance
 
-**DO:** Treat API schema as a contract and block breaking changes in CI.
+**MUST:** Treat API schema as a contract and block breaking changes in CI.
 - Maintain OpenAPI spec in repo (`openapi.yaml` or `openapi.json`).
 - Lint API schema on each PR.
 - Run backward-compatibility checks before merge.
@@ -464,10 +470,11 @@ errorResponse(res, 'Validation failed', 400, validationErrors);
   run: npm run api:check-breaking
 ```
 
-**DON'T:** Ship undocumented breaking API changes.
+**MUST NOT:** Ship undocumented breaking API changes.
+
 ### Rate Limiting
 
-**DO:** Implement rate limiting
+**MUST:** Implement rate limiting
 ```javascript
 // Good: Protect against brute force
 const rateLimit = require('express-rate-limit');
@@ -507,32 +514,32 @@ app.use('/api/', apiLimiter);
 
 ### Project Structure
 
-**DO:** Follow Angular style guide structure
+**MUST:** Follow Angular style guide structure
 ```
 src/app/
-+-- core/                 # Singleton services, guards
-�   +-- guards/
-�   +-- interceptors/
-�   +-- services/
-�   +-- core.module.ts
-+-- shared/              # Shared components, directives, pipes
-�   +-- components/
-�   +-- directives/
-�   +-- pipes/
-�   +-- shared.module.ts
-+-- features/            # Feature modules
-�   +-- user/
-�   �   +-- components/
-�   �   +-- services/
-�   �   +-- models/
-�   �   +-- user.module.ts
-�   +-- dashboard/
-+-- app.component.ts
+|-- core/                 # Singleton services, guards
+|   |-- guards/
+|   |-- interceptors/
+|   |-- services/
+|   \\-- core.module.ts
+|-- shared/              # Shared components, directives, pipes
+|   |-- components/
+|   |-- directives/
+|   |-- pipes/
+|   \\-- shared.module.ts
+|-- features/            # Feature modules
+|   |-- user/
+|   |   |-- components/
+|   |   |-- services/
+|   |   |-- models/
+|   |   \\-- user.module.ts
+|   \\-- dashboard/
+\\-- app.component.ts
 ```
 
 ### Component Best Practices
 
-**DO:** Keep components focused and testable
+**MUST:** Keep components focused and testable
 ```typescript
 // Good: Single responsibility, clear inputs/outputs
 @Component({
@@ -588,7 +595,7 @@ export class UserProfileComponent implements OnInit, OnDestroy {
 }
 ```
 
-**DON'T:** Create god components or forget unsubscribe
+**MUST NOT:** Create god components or forget unsubscribe
 ```typescript
 // Bad: Too many responsibilities, memory leaks
 @Component({
@@ -622,7 +629,7 @@ export class DashboardComponent {
 
 ### Service Best Practices
 
-**DO:** Use services for business logic and HTTP calls
+**MUST:** Use services for business logic and HTTP calls
 ```typescript
 // Good: Clean service with error handling
 @Injectable({
@@ -692,7 +699,7 @@ export class UserService {
 
 ### HTTP Interceptors
 
-**DO:** Use interceptors for cross-cutting concerns
+**MUST:** Use interceptors for cross-cutting concerns
 ```typescript
 // Good: Auth interceptor
 @Injectable()
@@ -744,7 +751,7 @@ export class ErrorInterceptor implements HttpInterceptor {
 
 ### Form Validation
 
-**DO:** Use reactive forms with validation
+**MUST:** Use reactive forms with validation
 ```typescript
 // Good: Reactive form with custom validators
 export class UserFormComponent implements OnInit {
@@ -807,7 +814,7 @@ export class UserFormComponent implements OnInit {
 
 ### State Management (NgRx)
 
-**DO:** Use NgRx for complex state
+**MUST:** Use NgRx for complex state
 ```typescript
 // Good: Well-structured NgRx implementation
 
@@ -885,7 +892,7 @@ export const selectUsersLoading = createSelector(
 
 ### Security in Angular
 
-**DO:** Sanitize user input and use Angular's built-in security
+**MUST:** Sanitize user input and use Angular's built-in security
 ```typescript
 // Good: Sanitization
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
@@ -925,7 +932,7 @@ private noScriptTagValidator(control: AbstractControl): ValidationErrors | null 
 }
 ```
 
-**DON'T:** Bypass Angular's security
+**MUST NOT:** Bypass Angular's security
 ```typescript
 // Bad: Bypassing sanitization
 this.innerHTML = this.sanitizer.bypassSecurityTrustHtml(userInput); // Dangerous!
@@ -933,7 +940,7 @@ this.innerHTML = this.sanitizer.bypassSecurityTrustHtml(userInput); // Dangerous
 
 ### Accessibility & Performance Budgets
 
-**DO:** Enforce accessibility and frontend performance budgets.
+**MUST:** Enforce accessibility and frontend performance budgets.
 - Meet WCAG 2.1 AA for core user journeys.
 - Run accessibility checks in CI (axe or Lighthouse).
 - Define bundle budgets (initial JS/CSS) and fail build on regressions.
@@ -947,13 +954,14 @@ this.innerHTML = this.sanitizer.bypassSecurityTrustHtml(userInput); // Dangerous
   ]
 }
 ```
+
 ---
 
 ## PostgreSQL Database Standards
 
 ### Schema Design
 
-**DO:** Follow normalization and use appropriate data types
+**MUST:** Follow normalization and use appropriate data types
 ```sql
 -- Good: Normalized schema with constraints
 CREATE TABLE users (
@@ -991,7 +999,7 @@ CREATE INDEX idx_sessions_user_id ON user_sessions(user_id);
 CREATE INDEX idx_sessions_expires_at ON user_sessions(expires_at);
 ```
 
-**DON'T:** Use poor data types or skip constraints
+**MUST NOT:** Use poor data types or skip constraints
 ```sql
 -- Bad: Wrong data types, no constraints
 CREATE TABLE users (
@@ -1004,7 +1012,7 @@ CREATE TABLE users (
 
 ### Migrations
 
-**DO:** Use versioned migrations
+**MUST:** Use versioned migrations
 ```sql
 -- migrations/001_create_users_table.up.sql
 BEGIN;
@@ -1029,7 +1037,7 @@ COMMIT;
 
 ### Query Optimization
 
-**DO:** Use EXPLAIN ANALYZE and optimize queries
+**MUST:** Use EXPLAIN ANALYZE and optimize queries
 ```sql
 -- Good: Optimized query with proper indexing
 EXPLAIN ANALYZE
@@ -1062,7 +1070,7 @@ LEFT JOIN recent_orders ro ON au.id = ro.user_id
 ORDER BY orders DESC;
 ```
 
-**DON'T:** Write inefficient queries
+**MUST NOT:** Write inefficient queries
 ```sql
 -- Bad: N+1 query pattern
 SELECT * FROM users; -- Then for each user:
@@ -1075,7 +1083,7 @@ SELECT * FROM users WHERE email = 'test@example.com';
 
 ### Indexes
 
-**DO:** Create appropriate indexes
+**MUST:** Create appropriate indexes
 ```sql
 -- Good: Composite index for common query patterns
 CREATE INDEX idx_orders_user_status ON orders(user_id, status);
@@ -1089,7 +1097,7 @@ WHERE is_active = true AND deleted_at IS NULL;
 CREATE INDEX idx_orders_user_id ON orders(user_id);
 ```
 
-**DON'T:** Over-index or under-index
+**MUST NOT:** Over-index or under-index
 ```sql
 -- Bad: Too many indexes (slows down writes)
 CREATE INDEX idx1 ON users(email);
@@ -1104,7 +1112,7 @@ CREATE INDEX idx4 ON users(created_at);
 
 ### Transactions & Locking
 
-**DO:** Use transactions properly
+**MUST:** Use transactions properly
 ```sql
 -- Good: Explicit transaction with error handling
 BEGIN;
@@ -1133,7 +1141,7 @@ COMMIT;
 
 ### Database Functions & Triggers
 
-**DO:** Use functions for complex logic
+**MUST:** Use functions for complex logic
 ```sql
 -- Good: Update timestamp trigger
 CREATE OR REPLACE FUNCTION update_updated_at_column()
@@ -1183,7 +1191,7 @@ $$ LANGUAGE plpgsql;
 
 ### Dockerfile Best Practices
 
-**DO:** Create optimized, secure Dockerfiles
+**MUST:** Create optimized, secure Dockerfiles
 ```dockerfile
 # Good: Multi-stage build for Node.js
 # Stage 1: Build
@@ -1231,7 +1239,7 @@ HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
 CMD ["node", "dist/main.js"]
 ```
 
-**DON'T:** Create bloated or insecure images
+**MUST NOT:** Create bloated or insecure images
 ```dockerfile
 # Bad: Many issues
 FROM node:18  # Not using Alpine (larger image)
@@ -1253,7 +1261,7 @@ CMD npm start  # Should use node directly
 
 ### Docker Compose
 
-**DO:** Use docker-compose for local development
+**MUST:** Use docker-compose for local development
 ```yaml
 # docker-compose.yml
 version: '3.8'
@@ -1345,7 +1353,7 @@ networks:
 
 ### .dockerignore
 
-**DO:** Exclude unnecessary files
+**MUST:** Exclude unnecessary files
 ```
 # .dockerignore
 node_modules
@@ -1370,7 +1378,7 @@ logs
 
 ### GitHub Actions Example
 
-**DO:** Implement comprehensive CI/CD
+**MUST:** Implement comprehensive CI/CD
 ```yaml
 # .github/workflows/ci-cd.yml
 name: CI/CD Pipeline
@@ -1553,7 +1561,7 @@ jobs:
 
 ### GitLab CI Example
 
-**DO:** Alternative CI/CD with GitLab
+**MUST:** Alternative CI/CD with GitLab
 ```yaml
 # .gitlab-ci.yml
 stages:
@@ -1647,7 +1655,7 @@ deploy:production:
 
 ### Supply Chain Security (Mandatory)
 
-**DO:** Harden CI/CD and software supply chain.
+**MUST:** Harden CI/CD and software supply chain.
 - Pin critical GitHub Actions to immutable commit SHAs.
 - Generate SBOM (CycloneDX/SPDX) for release artifacts.
 - Enable secret scanning and dependency scanning in CI.
@@ -1661,20 +1669,21 @@ deploy:production:
 
 ### Release Strategy & Rollback
 
-**DO:** Use controlled progressive delivery for production.
+**MUST:** Use controlled progressive delivery for production.
 - Use feature flags for risky changes.
 - Prefer canary or blue/green rollout.
 - Gate promotion on health checks, error rate, and p95 latency.
 - Automate rollback when release SLOs are violated.
 
-**DON'T:** Perform all-at-once production rollout for high-risk releases.
+**MUST NOT:** Perform all-at-once production rollout for high-risk releases.
+
 ---
 
 ## Nginx Configuration Standards
 
 ### Main Configuration
 
-**DO:** Secure and optimized Nginx config
+**MUST:** Secure and optimized Nginx config
 ```nginx
 # nginx.conf
 user nginx;
@@ -1734,7 +1743,7 @@ http {
 
 ### Site Configuration
 
-**DO:** Proper reverse proxy and SSL
+**MUST:** Proper reverse proxy and SSL
 ```nginx
 # /etc/nginx/conf.d/app.conf
 
@@ -1858,7 +1867,7 @@ server {
 }
 ```
 
-**DON'T:** Expose sensitive information or use weak SSL
+**MUST NOT:** Expose sensitive information or use weak SSL
 ```nginx
 # Bad: Insecure configuration
 server {
@@ -1888,7 +1897,7 @@ server {
 
 ### Environment Security
 
-**DO:** Secure environment management
+**MUST:** Secure environment management
 ```bash
 # .env.example (committed to repo)
 # Database
@@ -1941,7 +1950,7 @@ module.exports = envVars;
 
 ### Dependency Security
 
-**DO:** Keep dependencies updated and scanned
+**MUST:** Keep dependencies updated and scanned
 ```bash
 # Regular security audits
 npm audit
@@ -1960,16 +1969,17 @@ npm ci # Use in CI/CD instead of npm install
 
 ### Secrets Management & Rotation
 
-**DO:** Manage secrets with centralized secret stores.
+**MUST:** Manage secrets with centralized secret stores.
 - Use AWS Secrets Manager / GCP Secret Manager / HashiCorp Vault.
 - Rotate database passwords, API keys, and signing keys on a fixed schedule.
 - Keep JWT signing keys and TLS certificates on rotation policy.
 - Audit all secret access and alert on anomalies.
 
-**DON'T:** Store long-lived production secrets in `.env` files.
+**MUST NOT:** Store long-lived production secrets in `.env` files.
+
 ### CORS Configuration
 
-**DO:** Configure CORS properly
+**MUST:** Configure CORS properly
 ```javascript
 // Good: Restrictive CORS
 const cors = require('cors');
@@ -1997,7 +2007,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 ```
 
-**DON'T:** Use wildcard CORS in production
+**MUST NOT:** Use wildcard CORS in production
 ```javascript
 // Bad: Allows all origins
 app.use(cors()); // Dangerous in production!
@@ -2005,11 +2015,11 @@ app.use(cors()); // Dangerous in production!
 
 ### SQL Injection Prevention
 
-**DO:** Always use parameterized queries (covered in PostgreSQL section)
+**MUST:** Always use parameterized queries (covered in PostgreSQL section)
 
 ### XSS Prevention
 
-**DO:** Sanitize and escape output
+**MUST:** Sanitize and escape output
 ```javascript
 // Good: Using helmet for security headers
 const helmet = require('helmet');
@@ -2043,7 +2053,7 @@ const sanitizeInput = (input) => {
 
 ### CSRF Protection
 
-**DO:** Implement CSRF tokens
+**MUST:** Implement CSRF tokens
 ```javascript
 // Good: CSRF protection
 const csrf = require('csurf');
@@ -2067,7 +2077,7 @@ app.get('/form', (req, res) => {
 
 ### SLOs, Alerts, and Incident Signals
 
-**DO:** Define reliability objectives and alerting policy.
+**MUST:** Define reliability objectives and alerting policy.
 - Define SLOs per critical service (availability, latency, error rate).
 - Use error budgets to control release risk.
 - Page only on user-impacting signals; route lower severity to backlog.
@@ -2081,12 +2091,11 @@ app.get('/form', (req, res) => {
 - Release dashboards comparing pre/post deployment health.
 
 ---
-
 ## Repository Governance & ADR
 
 ### Branch Protection and Ownership
 
-**DO:** Enforce repository controls.
+**MUST:** Enforce repository controls.
 - Require CODEOWNERS approvals on protected paths.
 - Require passing CI checks before merge.
 - Disallow force-push to protected branches.
@@ -2094,7 +2103,7 @@ app.get('/form', (req, res) => {
 
 ### ADR and Deprecation Process
 
-**DO:** Record architecture-impacting decisions.
+**MUST:** Record architecture-impacting decisions.
 - Create ADRs for major API, schema, and platform changes.
 - Include context, decision, alternatives, risks, and rollback plan.
 - Track deprecation windows and migration deadlines in ADR/RFC docs.
@@ -2160,7 +2169,7 @@ app.get('/form', (req, res) => {
 
 ## Commit Message Convention
 
-**DO:** Use conventional commits
+**MUST:** Use conventional commits
 ```
 type(scope): subject
 
@@ -2187,7 +2196,7 @@ refactor(database): optimize user queries
 test(auth): add integration tests for login flow
 ```
 
-**DON'T:** Write vague commit messages
+**MUST NOT:** Write vague commit messages
 ```
 git commit -m "fix stuff"
 git commit -m "updates"
@@ -2210,3 +2219,5 @@ git commit -m "wip"
 ---
 
 **Remember:** These standards are living documents. As the team and technology evolve, so should these guidelines. Suggest improvements through pull requests!
+
+
